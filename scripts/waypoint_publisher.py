@@ -1,43 +1,76 @@
 import rclpy
 from rclpy.node import Node
-from nav2_msgs.action import NavigateToPose
-from geometry_msgs.msg import PoseStamped
-from std_msgs.msg import Bool
+from std_msgs.msg import Header, String
+from geometry_msgs.msg import PoseStamped, Point, Quaternion
 
-class RectanglePathPlanner(Node):
-
+class GoalPosePublisher(Node):
     def __init__(self):
-        super().__init__('rectangle_path_planner')
+        super().__init__('goal_pose_publisher')
+        self.goal_reached = True  # Assume the goal is reached initially
         self.publisher = self.create_publisher(PoseStamped, '/goal_pose', 10)
-        self.subscription = self.create_subscription(Bool, '/goal_reached', self.goal_completion_callback, 10)
-        self.waypoints = [
-            (0, 0),
-            (-4, 0),
-            (-4,4),
-            (0,4),
-            (0, 0),
-        ]
-        self.current_waypoint_index = 0
-        self.publish_next_goal()
+        self.subscription = self.create_subscription(String, '/goal_status', self.goal_reached_callback, 10)
+        self.waypoints = []  # Initialize an empty list of waypoints
+        self.enqueue_waypoints()  # Queue up the waypoints
 
-    def goal_completion_callback(self, msg):
-        if msg.data and self.current_waypoint_index < len(self.waypoints) - 1:
-            self.current_waypoint_index += 1
-            self.publish_next_goal()
+        # Publish the first waypoint as soon as the script starts
+        if self.waypoints:
+            self.publisher.publish(self.waypoints[0])
 
-    def publish_next_goal(self):
-        pose_msg = PoseStamped()
-        pose_msg.pose.position.x = float(self.waypoints[self.current_waypoint_index][0])
-        pose_msg.pose.position.y = float(self.waypoints[self.current_waypoint_index][1])
-        pose_msg.header.stamp = self.get_clock().now().to_msg()
-        self.publisher.publish(pose_msg)
-        self.get_logger().info(f"Publishing waypoint {self.current_waypoint_index + 1}")
+    def goal_reached_callback(self, msg):
+        if msg.data == "Goal reached!" and self.waypoints:
+            self.get_logger().info("Goal reached. Publishing the next set of points...")
+
+            # Dequeue and publish the next waypoint
+            waypoint = self.waypoints.pop(0)
+            self.publisher.publish(waypoint)
+
+    def enqueue_waypoints(self):
+        # Define the waypoints to be enqueued to form a rectangle with length 3 and breadth 4
+        waypoints = []
+
+        # # Start at (0, 0)
+        # waypoint = PoseStamped()
+        # waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
+        # waypoint.pose.position = Point(x=0.0, y=0.0, z=0.0)
+        # waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        # waypoints.append(waypoint)
+
+        # Move to (0, 4)
+        waypoint = PoseStamped()
+        waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
+        waypoint.pose.position = Point(x=0.0, y=4.0, z=0.0)
+        waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        waypoints.append(waypoint)
+
+        # Move to (3, 4)
+        waypoint = PoseStamped()
+        waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
+        waypoint.pose.position = Point(x=2.0, y=4.0, z=0.0)
+        waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        waypoints.append(waypoint)
+
+        # Move back to (3, 0)
+        waypoint = PoseStamped()
+        waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
+        waypoint.pose.position = Point(x=2.0, y=0.0, z=0.0)
+        waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        waypoints.append(waypoint)
+
+        # Move back to (0, 0)
+        waypoint = PoseStamped()
+        waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
+        waypoint.pose.position = Point(x=0.0, y=0.0, z=0.0)
+        waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        waypoints.append(waypoint)
+
+
+        self.waypoints = waypoints
 
 def main(args=None):
     rclpy.init(args=args)
-    node = RectanglePathPlanner()
+    node = GoalPosePublisher()
+
     rclpy.spin(node)
-    node.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':

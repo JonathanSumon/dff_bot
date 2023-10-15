@@ -160,8 +160,8 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 7.0 
-      publish_frequency: 4.0
+      update_frequency: 5.0 
+      publish_frequency: 2.0
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
@@ -174,7 +174,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.95
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
