@@ -7,7 +7,7 @@ class GoalPosePublisher(Node):
     def __init__(self):
         super().__init__('goal_pose_publisher')
         self.goal_reached = True  # Assume the goal is reached initially
-        self.publisher = self.create_publisher(PoseStamped, '/goal_pose', 10)
+        self.publisher = self.create_publisher(PoseStamped, '/goal_pose', 20)
         self.subscription = self.create_subscription(String, '/goal_status', self.goal_reached_callback, 10)
         self.waypoints = []  # Initialize an empty list of waypoints
         self.enqueue_waypoints()  # Queue up the waypoints
@@ -42,14 +42,14 @@ class GoalPosePublisher(Node):
         waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
         waypoints.append(waypoint)
 
-        # Move to (3, 4)
+        # Move to (2, 4)
         waypoint = PoseStamped()
         waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
         waypoint.pose.position = Point(x=2.0, y=4.0, z=0.0)
         waypoint.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
         waypoints.append(waypoint)
 
-        # Move back to (3, 0)
+        # Move back to (2, 0)
         waypoint = PoseStamped()
         waypoint.header = Header(stamp=self.get_clock().now().to_msg(), frame_id='map')
         waypoint.pose.position = Point(x=2.0, y=0.0, z=0.0)

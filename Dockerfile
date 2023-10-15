@@ -18,7 +18,7 @@ COPY . /dff_ws/src/dff_bot
 RUN . /opt/ros/foxy/setup.sh \
     && colcon build 
 
-RUN . install/setup.sh
+ENTRYPOINT [ "/bin/bash", "-c", "source /opt/ros/foxy/setup.sh && source /dff_ws/install/setup.bash && /bin/bash" ]
 
 # # Source the ROS 2 workspace
 # RUN echo "source /dff_ws/install/setup.bash" >> /root/.bashrc
