@@ -25,8 +25,7 @@ def generate_launch_description():
   nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
   behavior_tree_xml_path = os.path.join(nav2_bt_path, 'behavior_trees', 'navigate_w_replanning_and_recovery.xml')
-  
-  # Launch configuration variables specific to simulation
+
   autostart = LaunchConfiguration('autostart')
   default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
   headless = LaunchConfiguration('headless')
@@ -43,12 +42,6 @@ def generate_launch_description():
   use_simulator = LaunchConfiguration('use_simulator')
   world = LaunchConfiguration('world')
   
-  # Map fully qualified names to relative ones so the node's namespace can be prepended.
-  # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
-  # https://github.com/ros/geometry2/issues/32
-  # https://github.com/ros/robot_state_publisher/pull/30
-  # TODO(orduno) Substitute with `PushNodeRemapping`
-  #              https://github.com/ros2/launch_ros/issues/56
   remappings = [('/tf', 'tf'),
                 ('/tf_static', 'tf_static')]
   
@@ -127,8 +120,6 @@ def generate_launch_description():
     name='world',
     default_value=world_path,
     description='Full path to the world model file to load')
-   
-  # Specify the actions
 
   # Start Gazebo server
   start_gazebo_server_cmd = IncludeLaunchDescription(
