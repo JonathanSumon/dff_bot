@@ -1,0 +1,24 @@
+name: Code Quality Checks
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8  # Specify your Python version
+
+      - name: Run Python linting
+        run: |
+          pylint scripts/monitor.py  # Customize this as needed
+        working-directory: dff_bot  # Change to your package's directory
