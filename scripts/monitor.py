@@ -1,17 +1,21 @@
-# Author: Jonathan Sumon
-# Date: Oct 12, 2023
-# Description: Launch a basic mobile robot URDF file using Rviz for DFF
-# jonathansumon@gmail.com
+"""
+This module contains a ROS 2 node for monitoring a robot's goal and publishing goal status.
+Author: Jonathan Sumon
+Date: Oct 12, 2023
+Email: jonathansumon@gmail.com
+"""
 
+import math
 import rclpy
 from rclpy.node import Node
-import math
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import String
 from rclpy.qos import QoSProfile
 
 class GoalMonitorNode(Node):
+    """Node for monitoring robot goal and publishing goal status."""
+
     def __init__(self):
         super().__init__('goal_monitor_node')
         self.distance_threshold = 0.4  # Adjustable to requirements.
@@ -21,17 +25,20 @@ class GoalMonitorNode(Node):
 
         # Subscribe to the filtered odometry topic
         self.odom_sub = self.create_subscription(Odometry, '/odometry/filtered', self.odometry_callback, 20)
-        
+
         # Subscribe to the goal pose topic
         self.goal_pose_sub = self.create_subscription(PoseStamped, '/goal_pose', self.goal_pose_callback, 20)
 
     def odometry_callback(self, msg):
+        """Callback for odometry data."""
         if self.goal_position is not None and not self.goal_reached:
             robot_position = msg.pose.pose.position
 
             # Calculate the distance between the robot and the current goal
-            distance_to_goal = math.sqrt((robot_position.x - self.goal_position.x) ** 2 +
-                                        (robot_position.y - self.goal_position.y) ** 2)
+            distance_to_goal = math.sqrt(
+                (robot_position.x - self.goal_position.x) ** 2 +
+                (robot_position.y - self.goal_position.y) ** 2
+            )
 
             if distance_to_goal < self.distance_threshold:
                 if not self.goal_reached:
@@ -45,6 +52,7 @@ class GoalMonitorNode(Node):
                     self.get_logger().info("Goal not reached")
 
     def goal_pose_callback(self, msg):
+        """Callback for goal pose data."""
         self.goal_position = msg.pose.position
         self.goal_status_publisher.publish(String(data="Goal not reached"))
         self.goal_reached = False
@@ -53,7 +61,7 @@ class GoalMonitorNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = GoalMonitorNode()
-    
+
     rclpy.spin(node)
     rclpy.shutdown()
 
