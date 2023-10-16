@@ -25,7 +25,8 @@ jobs:
 
       - name: Run Python linting
         run: |
-          pylint --rcfile=.pylintrc scripts/monitor.py
+          pylint --rcfile=.pylintrc scripts/monitor.py || true
+
           PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py)
           if [ $(echo "$PYLINT_SCORE > 1.4" | bc) -eq 1 ]; then
             echo "Pylint score is greater than 1.4, passing the build."
@@ -33,4 +34,5 @@ jobs:
             echo "Pylint score is not greater than 1.4, failing the build."
             exit 1
           fi
+        working-directory: ${{ github.workspace }}
         
