@@ -59,7 +59,7 @@ def test_rectangular_movement(node):
             rclpy.shutdown()
 
         # If the robot has followed the entire path, the test passes
-        if current_waypoint == len(waypoints) - 1:
+        if current_waypoint == len(waypoints) :
             print("Robot has completed the rectangular path. Test PASSED.")
             node.get_logger().info("Robot has completed the rectangular path. Test PASSED.")
             rclpy.shutdown()
