@@ -40,6 +40,7 @@ class GoalMonitorNode(Node):
                 (robot_position.y - self.goal_position.y) ** 2
             )
 
+
             if distance_to_goal < self.distance_threshold:
                 if not self.goal_reached:
                     self.goal_status_publisher.publish(String(data="Goal reached!"))
