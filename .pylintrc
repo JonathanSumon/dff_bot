@@ -3,6 +3,8 @@
 # Enable all messages by default
 enable = *
 
+disable = E0401
+
 [FORMAT]
 
 # Maximum line length
