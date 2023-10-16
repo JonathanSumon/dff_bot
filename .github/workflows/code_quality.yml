@@ -28,16 +28,16 @@ jobs:
           echo "Starting now"
           pylint --rcfile=.pylintrc scripts/monitor.py || true #echo  && echo "Okay" || echo "Not okay"
 
-
           PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py || true)
           echo [$PYLINT_SCORE]
 
+          score_value="$(echo $PYLINT_SCORE | sed 's@^.* rated at \(....\)/10 .*@\1@g')"
 
-          # if [ $(echo "$PYLINT_SCORE > 1.4" | bc) -eq 1 ]; then
-          #   echo "Pylint score is greater than 1.4, passing the build."
-          # else
-          #   echo "Pylint score is not greater than 1.4, failing the build."
-          #   exit 1
-          # fi
+          if [ $(echo "$score_value > 7.5" | bc) -eq 1 ]; then
+            echo "Pylint score is greater than 7.5, passing the build."
+          else
+            echo "Pylint score is not greater than 7.5, failing the build."
+            exit 1
+          fi
         working-directory: ${{ github.workspace }}
         
