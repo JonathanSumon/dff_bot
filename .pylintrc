@@ -1,0 +1,17 @@
+[MESSAGES CONTROL]
+
+# Enable all messages by default
+enable = *
+
+[FORMAT]
+
+# Maximum line length
+max-line-length = 100
+
+[DESIGN]
+
+# Maximum number of arguments for functions/methods
+max-args = 5
+
+# Minimum public methods in a class
+min-public-methods = 1
