@@ -3,7 +3,7 @@ name: Code Quality Checks
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   code-quality:
@@ -17,6 +17,11 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8  # Specify your Python version
+
+      - name: Install Pylint
+        run: |
+          pip install pylint
+        working-directory: ${{ github.workspace }}
 
       - name: Run Python linting
         run: |
