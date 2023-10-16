@@ -27,9 +27,9 @@ jobs:
         run: |
           echo "Starting now"
           pylint --rcfile=.pylintrc scripts/monitor.py
+                                            
 
-
-          PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py)
+          # PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py)
           echo [$PYLINT_SCORE]
 
 
