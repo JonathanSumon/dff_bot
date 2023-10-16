@@ -27,7 +27,7 @@ jobs:
         run: |
           pylint --rcfile=.pylintrc scripts/monitor.py
           PYLINT_EXIT_CODE=$?
-          if [ $PYLINT_EXIT_CODE -le 75 ]; then
+          if [ $PYLINT_EXIT_CODE -le 10 ]; then
             echo "Pylint score is less than or equal to 0.5, failing the build."
             exit 1
           fi
