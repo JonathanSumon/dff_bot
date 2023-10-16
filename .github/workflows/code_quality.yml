@@ -29,7 +29,7 @@ jobs:
           pylint --rcfile=.pylintrc scripts/monitor.py || true #echo  && echo "Okay" || echo "Not okay"
 
 
-          PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py || 0)
+          PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py || true)
           echo [$PYLINT_SCORE]
 
 
