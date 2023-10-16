@@ -21,4 +21,4 @@ jobs:
       - name: Run Python linting
         run: |
           pylint scripts/monitor.py  # Customize this as needed
-        working-directory: dff_bot  # Change to your package's directory
+        working-directory: ${{ github.workspace }}
