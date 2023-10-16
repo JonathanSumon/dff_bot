@@ -14,7 +14,7 @@ services:
     environment:
       - ROS_DOMAIN_ID=0
       - DISPLAY=$DISPLAY
-    command: ["ros2", "launch", "dff_bot", "nav2_launch.launch.py"]
+    # command: ["ros2", "launch", "dff_bot", "nav2_launch.launch.py"]
     network_mode: host
     tty: true
     # stdin_open: true

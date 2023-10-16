@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# This is the launch file used for ROS Foxy and older. Launch this file to save a map created in RViz.
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument

@@ -1,3 +1,8 @@
+# Author: Jonathan Sumon
+# Date: Oct 12, 2023
+# Description: Nav2 Launch
+# jonathansumon@gmail.com
+
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription

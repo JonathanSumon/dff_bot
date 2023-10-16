@@ -1,3 +1,8 @@
+# Author: Jonathan Sumon
+# Date: Oct 12, 2023
+# Description: Launch a basic mobile robot URDF file using Rviz for DFF
+# jonathansumon@gmail.com
+
 import rclpy
 from rclpy.node import Node
 import math
@@ -9,7 +14,7 @@ from rclpy.qos import QoSProfile
 class GoalMonitorNode(Node):
     def __init__(self):
         super().__init__('goal_monitor_node')
-        self.distance_threshold = 0.4  # Adjust this value based on your requirements
+        self.distance_threshold = 0.4  # Adjustable to requirements.
         self.goal_position = None
         self.goal_reached = False
         self.goal_status_publisher = self.create_publisher(String, '/goal_status', QoSProfile(depth=10))

@@ -1,3 +1,8 @@
+# Author: Jonathan Sumon
+# Date: Oct 15, 2023
+# Description: Launch a basic mobile robot URDF file using Rviz for DFF
+# jonathansumon@gmail.com
+
 import rclpy
 from nav_msgs.msg import Odometry
 import math

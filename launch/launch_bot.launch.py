@@ -3,10 +3,6 @@
 # Description: Launch a basic mobile robot URDF file using Rviz for DFF
 # jonathansumon@gmail.com
 
-# Author: Addison Sears-Collins
-# Date: August 30, 2021
-# Description: Launch a basic mobile robot
-# https://automaticaddison.com
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
