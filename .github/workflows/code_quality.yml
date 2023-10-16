@@ -25,7 +25,8 @@ jobs:
 
       - name: Run Python linting
         run: |
-          pylint --rcfile=.pylintrc scripts/monitor.py || true
+          echo "Starting now"
+          pylint --rcfile=.pylintrc scripts/monitor.py
 
 
           PYLINT_SCORE=$(pylint --rcfile=.pylintrc scripts/monitor.py)
